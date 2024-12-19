@@ -2,38 +2,48 @@ import random
 import time
 import os
 from colorama import Fore, init
+import sys
 
-# Inicjalizacja coloramy
 init(autoreset=True)
+sys.stdout.reconfigure(encoding='utf-8')
 
-# Funkcja do generowania losowego koloru
 def random_color():
     colors = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA, Fore.BLUE]
     return random.choice(colors)
 
-# Funkcja rysująca choinkę
-def draw_tree():
-    tree = [
-        "       *",
-        "       ***",
-        "      *****",
-        "     *******",
-        "    *********",
-        "   ***********",
-        "  *************",
-        " ***************",
-        "      |||"
-    ]
+def clear_screen():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
-    # Rysowanie choinki z losowymi kolorami
-    os.system('cls' if os.name == 'nt' else 'clear')  # Czyszczenie ekranu
+def draw_tree(rows):
+    tree = []
+    for i in range(1, rows + 1):
+        if i == 1:
+            tree.append(' ' * (rows - i) + '*' * (2 * i - 1))
+        else:
+            tree.append(' ' * (rows - i + 1) + '*' * (2 * i - 1))
+
+    trunk_width = 8
+    trunk_padding = (2 * rows - 1 - trunk_width) // 2
+    trunk = f"{' ' * trunk_padding}{Fore.YELLOW}||||||||\n{' ' * trunk_padding}{Fore.YELLOW}||||||||\n{' ' * trunk_padding}{Fore.YELLOW}||||||||"
+    tree.append(trunk)
+
+    clear_screen()
+
     for line in tree:
-        print(random_color() + line)  # Każda linia choinki ma inny kolor
+        if '||||' in line:
+            print(line)
+        else:
+            print(random_color() + line)
 
-# Główna pętla programu
+
 try:
+    rows = 40
     while True:
-        draw_tree()  # Rysowanie choinki
-        time.sleep(1)  # Odczekaj 1 sekundę przed rysowaniem nowej choinki
+        draw_tree(rows)
+        time.sleep(1)
+
 except KeyboardInterrupt:
     print("\nProgram zakończony.")
