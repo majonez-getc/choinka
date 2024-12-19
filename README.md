@@ -24,7 +24,7 @@ pip install colorama
 
 1. Clone or download the repository.
 2. Install the required dependency: `pip install colorama`
-3. Run the script: `python christmas_tree.py`
+3. Run the script: `python main.py`
 
 The program will continuously redraw the Christmas tree, updating its appearance every second. Press Ctrl+C to stop the program.
 
